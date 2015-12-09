@@ -1,0 +1,25 @@
+port = ":{{ .Env.PORT }}"
+logLevel = "{{ .Env.LOG_LEVEL }}"
+{{ if eql .Env.ACCESS_LOGS "enabled" }}
+accessLogFile = "/dev/stdout"{{ end }}
+
+[web]
+address = ":{{ .Env.WEB_PORT }}"
+
+[file]
+[backends]
+  [backends.app]
+    [backends.app.LoadBalancer]
+      method = "drr"
+    [backends.app.servers.default]
+      url = "{{ default .Env.SERVER "http://localhost:8080" }}"
+      weight = 1
+
+[frontends]
+  [frontends.app]
+  backend = "app"
+  passHostHeader = true
+    [frontends.app.routes.all]
+    rule = "PathPrefix"
+    value = "/"
+{{ path "/" }}
