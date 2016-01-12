@@ -3,23 +3,17 @@ logLevel = "{{ .Env.LOG_LEVEL }}"
 {{ if eql .Env.ACCESS_LOGS "enabled" }}
 accessLogFile = "/dev/stdout"{{ end }}
 
+{{ if eql .Env.WEB "enabled" }}
 [web]
 address = ":{{ .Env.WEB_PORT }}"
+{{ if has_key .Env "WEB_READ_ONLY" }}
+ReadOnly = true{{ end }}
+{{ end }}
 
-[file]
-[backends]
-  [backends.app]
-    [backends.app.LoadBalancer]
-      method = "drr"
-    [backends.app.servers.default]
-      url = "{{ default .Env.SERVER "http://localhost:8080" }}"
-      weight = 1
-
-[frontends]
-  [frontends.app]
-  backend = "app"
-  passHostHeader = true
-    [frontends.app.routes.all]
-    rule = "PathPrefix"
-    value = "/"
+{{ if eql .Env.ETCD "enabled" }}
+[etcd]
+  endpoint = "127.0.0.1:2379"
+  watch = true
+  prefix = "{{ default .Env.ETCD_PREFIX "/traefik" }}"
+{{ end }}
 {{ path "/" }}
