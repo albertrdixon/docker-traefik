@@ -17,9 +17,10 @@ RUN apk add --update --repository http://dl-1.alpinelinux.org/alpine/edge/testin
 
 ENTRYPOINT ["tini", "-g", "--", "docker-entry"]
 CMD ["docker-start"]
+EXPOSE 1090 8888
 
 ENV ETCD=enabled \
-    PORT=8080 \
+    PORT=1090 \
     LOG_LEVEL=ERROR \
     WEB=enabled \
     WEB_PORT=8888 \
