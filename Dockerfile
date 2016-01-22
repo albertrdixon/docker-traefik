@@ -1,4 +1,4 @@
-FROM alpine:3.2
+FROM alpine:3.3
 MAINTAINER Albert Dixon <albert@dixon.rocks>
 
 ENV GOSU_VER=1.7 \
