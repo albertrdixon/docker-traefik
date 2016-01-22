@@ -20,6 +20,7 @@ CMD ["docker-start"]
 EXPOSE 1090 8888
 
 ENV ETCD=enabled \
+    ETCD_ENDPOINT=127.0.0.1:2379 \
     PORT=1090 \
     LOG_LEVEL=ERROR \
     WEB=enabled \

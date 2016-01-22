@@ -12,7 +12,7 @@ ReadOnly = true{{ end }}
 
 {{ if eql .Env.ETCD "enabled" }}
 [etcd]
-  endpoint = "127.0.0.1:2379"
+  endpoint = "{{ .Env.ETCD_ENDPOINT }}"
   watch = true
   prefix = "{{ default .Env.ETCD_PREFIX "/traefik" }}"
 {{ end }}
